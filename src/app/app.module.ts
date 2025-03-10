@@ -1,7 +1,7 @@
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,42 +20,36 @@ import { GlobalHttpErrorHandlerInterceptor } from './interceptors/global-http-er
 import { TestingRxjsService } from './services/testing-rxjs.service';
 import { FileInputDirective } from './directives/file-input.directive';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent,
-    HomeComponent,
-    AboutComponent,
-    SpinnerComponent,
-    TemplateFormComponent,
-    IncomeComponent,
-    TestingRxjsComponent,
-    FileInputDirective,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: LoadingInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: GlobalHttpErrorHandlerInterceptor,
-      multi: true,
-    },
-    {
-      provide: ErrorHandler,
-      useClass: TestingRxjsService,
-    },
-  ],
-  bootstrap: [AppComponent],
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HeaderComponent,
+        FooterComponent,
+        HomeComponent,
+        AboutComponent,
+        SpinnerComponent,
+        TemplateFormComponent,
+        IncomeComponent,
+        TestingRxjsComponent,
+        FileInputDirective,
+    ],
+    bootstrap: [AppComponent], imports: [BrowserModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule], providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoadingInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: GlobalHttpErrorHandlerInterceptor,
+            multi: true,
+        },
+        {
+            provide: ErrorHandler,
+            useClass: TestingRxjsService,
+        },
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule {}
