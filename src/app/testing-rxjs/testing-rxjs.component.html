@@ -1,0 +1,9 @@
+<div *ngIf="error" class="error">{{error | json}}</div>
+<section class="content">
+  <ul class="tasks" *ngIf="tasks$ | async as tasks">
+    <li class="task mat-body" *ngFor="let task of tasks">{{ task.title }}</li>
+    <li class="no-data mat-caption" *ngIf="tasks.length === 0">
+      No Tasks In Backlog
+    </li>
+  </ul>
+</section>

@@ -1,0 +1,109 @@
+<div class="container">
+  <div class="row justify-content-center mb-2 mt-2">
+    <h4 class="text-center">Please fill the profile form</h4>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-5">
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="mb-3 row">
+          <label for="exampleFormControlInput1" class="form-label"
+            >Email address</label
+          >
+          <input
+            type="email"
+            class="form-control"
+            formControlName="email"
+            id="exampleFormControlInput1"
+            placeholder="name@example.com"
+          />
+        </div>
+        <div class="mb-3 row">
+          <label for="first-name" class="form-label">First Name: </label>
+          <input
+            id="first-name"
+            type="text"
+            formControlName="firstName"
+            class="form-control form-control-warning"
+            [ngClass]="
+              profileForm.get('firstName').invalid &&
+              (profileForm.get('firstName').dirty ||
+                profileForm.get('firstName').touched)
+                ? 'has-error'
+                : ''
+            "
+          />
+          <small *ngIf="profileForm.get('firstName').dirty" class="text-danger">
+            Must be 8-20 characters long.
+          </small>
+        </div>
+
+        <div class="mb-3 row">
+          <label for="first-name" class="form-label">Last Name: </label>
+          <input
+            id="last-name"
+            type="text"
+            formControlName="lastName"
+            class="form-control"
+          />
+        </div>
+
+        <div formGroupName="address">
+          <div class="mb-3 row">
+            <label for="first-name" class="form-label">City: </label>
+            <input
+              id="city"
+              type="text"
+              formControlName="city"
+              class="form-control"
+            />
+          </div>
+
+          <div class="mb-3 row">
+            <label for="first-name" class="form-label">State: </label>
+            <input
+              id="state"
+              type="text"
+              formControlName="state"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <button
+            class="btn btn-info pt-1 mb-3"
+            type="button"
+            (click)="addAlias()"
+          >
+            + Add another alias
+          </button>
+        </div>
+
+        <ng-container
+          formArrayName="aliases"
+          *ngFor="let alias of aliases?.controls; let i = index"
+        >
+          <div class="mb-3 row">
+            <label class="form-label" for="alias-{{ i }}">Alias:</label>
+            <input
+              class="form-control"
+              id="alias-{{ i }}"
+              type="text"
+              [formControlName]="i"
+            />
+          </div>
+        </ng-container>
+
+        <div class="row mb-3">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!profileForm.valid"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

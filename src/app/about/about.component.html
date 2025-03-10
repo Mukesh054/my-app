@@ -1,0 +1,28 @@
+<div>
+  <input
+    type="file"
+    fileInput
+    #file="fileControl"
+    [size]="1"
+    [mime]="['pdf', 'png', 'jpeg']"
+    (fileChanged)="onFileChanged($event)"
+    (error)="onFileInputError($event)"
+  />
+</div>
+
+<section class="preview-container" *ngIf="file?.value">
+  <div class="image-preview" *ngIf="file.isImage; else filePreview">
+    <img [src]="file?.fileUrl" [alt]="file?.fileName" />
+  </div>
+
+  <ng-template #filePreview>
+    <div class="file-preview">
+      {{ file?.fileName }}
+    </div>
+  </ng-template>
+
+  <div>
+    <button (click)="file.triggerChange()">Change</button>
+    <button (click)="file.removeFile()">Remove</button>
+  </div>
+</section>

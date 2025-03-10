@@ -1,0 +1,71 @@
+<form
+  id="addressForm"
+  #addressForm="ngForm"
+  [formGroup]="addressFormGroup"
+  (ngSubmit)="onSubmit($event)"
+>
+  <div formArrayName="previousAddresses">
+    <div *ngFor="let item of getPreviousAddressedControls(); let i = index">
+      <div [formGroupName]="i" class="group-wrapper">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="Name">Name</label>
+              <input
+                [readOnly]="getControlValue(i, 'isCurrentManualAddress')"
+                type="text"
+                name="currentAddressAutoComplete"
+                id="currentAddressAutoComplete"
+                formControlName="currentAddressAutoComplete"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-2">
+          <small>
+            <a
+              href="javascript:void(0);"
+              (click)="toggleIsCurrentManualAddress(i)"
+              >Enter address manually</a
+            >
+          </small>
+          <span>
+            {{ getControlValue(i, "isCurrentManualAddress") ? "Yes" : "No" }}
+          </span>
+        </div>
+        <div class="row" *ngIf="getControlValue(i, 'isCurrentManualAddress')">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="Street Name">Street Name</label>
+              <input
+                type="text"
+                id="streetName"
+                formControlName="streetName"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="Street Name">Street Number</label>
+              <input
+                type="text"
+                id="streetNumber"
+                formControlName="streetNumber"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+				<button class="btn btn-danger mt-2 mb-2" (click)="removeAddress(i)">Delete</button>
+      </div>
+    </div>
+    <div class="border border-light p-3 mb-4 add-btn-background">
+      <div class="text-center">
+        <button type="button" (click)="addNewAddress()" class="btn btn-primary">Add new address</button>
+      </div>
+    </div>
+  </div>
+</form>
