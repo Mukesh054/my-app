@@ -106,7 +106,7 @@ export class FileInputDirective {
 
     // const isSizeValid = true;
     const isSizeValid =
-      this.allowedSize <= 0 && fileSize <= (+this.allowedSize || 0);
+      +this.allowedSize <= 0 && fileSize <= (+this.allowedSize || 0);
 
     if (!isSizeValid) {
       return {
